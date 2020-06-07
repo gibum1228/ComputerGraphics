@@ -5,7 +5,11 @@ static GLboolean isOrtho = true;
 
 void MyDisplay(void)
 {
+	GLfloat LightPosition0[] = { 0.0, 0.0, 0.65, 1.0};
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, LightPosition0);
 
 	glColor3f(1.0f, 0.3f, 0.3f);
 	glutSolidSphere(0.27, 20, 16);						// 1
@@ -23,9 +27,8 @@ void MyDisplay(void)
 	glPopMatrix();
 	glPopMatrix();
 
-
-	glFlush();
 	glutSwapBuffers();
+	glFlush();
 }
 
 void MyKeyboard(unsigned char key, int x, int y)
@@ -92,15 +95,14 @@ void MyReshape(int w, int h)
 void MyLightInit() {
 	GLfloat global_ambient[] = { 0.1f, 0.1f, 0.1f, 1.0f }; // 전역 주변 반사
 
-	GLfloat light0_ambient[] = { 1.0f, 0.3f, 0.3f, 0.0f }; // 0번 광원 특성
-	GLfloat light0_diffuse[] = { 0.5f, 0.6f, 0.7f, 0.0f };
+	GLfloat light0_ambient[] = { 0.8f, 0.8f, 0.8f, 1.0f }; // 0번 광원 특성
+	GLfloat light0_diffuse[] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	GLfloat light0_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	GLfloat light0_position[] = { 0.0f, 1.0f, 0.0f };
 
-	GLfloat material_ambient[] = { 0.4f, 0.4f, 0.4f, 0.0f }; // 물체 특성
-	GLfloat material_diffuse[] = { 0.9f, 0.9f, 0.9f, 0.0f };
-	GLfloat material_specular[] = { 0.5f, 0.5f, 0.5f, 0.0f };
-	GLfloat material_shininess[] = { 75.0f };
+	GLfloat material_ambient[] = { 0.0f, 0.0f, 0.0f, 1.0f }; // 물체 특성
+	GLfloat material_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat material_specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	GLfloat material_shininess[] = { 60.0f };
 
 	glShadeModel(GL_SMOOTH); // 구로 쉐이딩
 	glEnable(GL_DEPTH_TEST); // 깊이 버퍼 활성화
@@ -109,9 +111,8 @@ void MyLightInit() {
 	glLightfv(GL_LIGHT0, GL_AMBIENT, light0_ambient); // 0번 광원 특성
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, light0_specular);
-	glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-	glEnable(GL_LIGHT0); // 0번 광원 활성화
 	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 0.8);
+	glEnable(GL_LIGHT0); // 0번 광원 활성화
 
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, material_diffuse); // 물체 특성
 	glMaterialfv(GL_FRONT, GL_SPECULAR, material_specular);
@@ -125,12 +126,12 @@ void MyLightInit() {
 int main(int argc, char** argv)
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow("OpenGL Sample Drawing");
 
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 
 	GLint MyMenuID = glutCreateMenu(MyMenu);
 	glutAddMenuEntry("Parallel Projection", 1);
